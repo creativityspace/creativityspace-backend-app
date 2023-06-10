@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
@@ -169,19 +170,19 @@ enum PostType {
 }
 
 model Products {
-  id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                String
-  description         String
-  price               String
-  downloadProductUrl  String
-  photos              String[]
-  Profile             Profile?           @relation(fields: [profileId], references: [id])
-  profileId           String?            @db.Uuid
-  sales               Sales[]
-  comments            Comment[]
-  Ratings             Ratings[]
-  ProductCategory   ProductCategories? @relation(fields: [productCategoryId], references: [id])
-  productCategoryId String            @db.Uuid
+  id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name               String
+  description        String
+  price              String
+  downloadProductUrl String
+  photos             String[]
+  Profile            Profile?           @relation(fields: [profileId], references: [id])
+  profileId          String?            @db.Uuid
+  sales              Sales[]
+  comments           Comment[]
+  Ratings            Ratings[]
+  ProductCategory    ProductCategories? @relation(fields: [productCategoryId], references: [id])
+  productCategoryId  String             @db.Uuid
 
   @@map("products")
 }

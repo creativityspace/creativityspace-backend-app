@@ -2,10 +2,10 @@
 CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN', 'CREATOR');
 
 -- CreateEnum
-CREATE TYPE "SocialApp" AS ENUM ('YOUTUBE', 'FACEBOOK', 'INSTAGRAM', 'TIKTOK');
+CREATE TYPE "SocialApp" AS ENUM ('YOUTUBE', 'FACEBOOK', 'INSTAGRAM', 'TIKTOK', 'TWITTER', 'TWITCH', 'OTHER');
 
 -- CreateEnum
-CREATE TYPE "PostType" AS ENUM ('IMAGE', 'TEXT', 'VIDEO');
+CREATE TYPE "PostType" AS ENUM ('IMAGE', 'TEXT', 'VIDEO', 'LINK', 'AUDIO');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -63,9 +63,9 @@ CREATE TABLE "collections" (
     "accessPrice" TEXT,
     "isFree" BOOLEAN NOT NULL DEFAULT false,
     "published" BOOLEAN DEFAULT true,
-    "authorId" UUID,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "profileId" UUID,
 
     CONSTRAINT "collections_pkey" PRIMARY KEY ("id")
 );
@@ -104,6 +104,7 @@ CREATE TABLE "comments" (
     "content" TEXT NOT NULL,
     "postId" UUID,
     "userId" UUID NOT NULL,
+    "productId" UUID,
 
     CONSTRAINT "comments_pkey" PRIMARY KEY ("id")
 );
@@ -116,6 +117,49 @@ CREATE TABLE "categories" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "products" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "price" TEXT NOT NULL,
+    "downloadProductUrl" TEXT NOT NULL,
+    "photos" TEXT[],
+    "profileId" UUID,
+    "productCategoryId" UUID NOT NULL,
+
+    CONSTRAINT "products_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Sales" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "price" TEXT NOT NULL,
+    "productId" UUID,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "userId" UUID NOT NULL,
+
+    CONSTRAINT "Sales_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Ratings" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "rating" DECIMAL(65,30) NOT NULL,
+    "productId" UUID,
+
+    CONSTRAINT "Ratings_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ProductCategories" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "ProductCategories_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -158,7 +202,7 @@ ALTER TABLE "followers" ADD CONSTRAINT "followers_userId_fkey" FOREIGN KEY ("use
 ALTER TABLE "followers" ADD CONSTRAINT "followers_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "profiles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "collections" ADD CONSTRAINT "collections_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "collections" ADD CONSTRAINT "collections_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "profiles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "subcribers" ADD CONSTRAINT "subcribers_collectionId_fkey" FOREIGN KEY ("collectionId") REFERENCES "collections"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -174,6 +218,24 @@ ALTER TABLE "comments" ADD CONSTRAINT "comments_userId_fkey" FOREIGN KEY ("userI
 
 -- AddForeignKey
 ALTER TABLE "comments" ADD CONSTRAINT "comments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "comments" ADD CONSTRAINT "comments_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "products" ADD CONSTRAINT "products_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "profiles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "products" ADD CONSTRAINT "products_productCategoryId_fkey" FOREIGN KEY ("productCategoryId") REFERENCES "ProductCategories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Sales" ADD CONSTRAINT "Sales_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Sales" ADD CONSTRAINT "Sales_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Ratings" ADD CONSTRAINT "Ratings_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_CategoryToProfile" ADD CONSTRAINT "_CategoryToProfile_A_fkey" FOREIGN KEY ("A") REFERENCES "categories"("id") ON DELETE CASCADE ON UPDATE CASCADE;
