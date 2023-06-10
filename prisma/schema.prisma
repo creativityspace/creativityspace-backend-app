@@ -1,0 +1,211 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email    String  @unique
+  userID   String  @unique
+  name     String?
+  userName String  @unique
+
+  profile     Profile?
+  role        Role         @default(USER)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Subscribers Subscriber[]
+  Followers   Follower[]
+  Comment     Comment[]
+  Sales       Sales[]
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+  CREATOR
+}
+
+model Profile {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  avatarUrl   String
+  bio         String
+  user        User?        @relation(fields: [userId], references: [id])
+  userId      String       @unique @db.Uuid
+  followers   Follower[]
+  collections Collection[]
+  socialLink  SocialLink[]
+  categories  Category[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Products    Products[]
+
+  @@map("profiles")
+}
+
+model SocialLink {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  url       String
+  socialApp SocialApp @default(YOUTUBE)
+  Profile   Profile?  @relation(fields: [profileId], references: [id])
+  profileId String?   @db.Uuid
+
+  @@map("socialLinks")
+}
+
+enum SocialApp {
+  YOUTUBE
+  FACEBOOK
+  INSTAGRAM
+  TIKTOK
+  TWITTER
+  TWITCH
+  OTHER
+}
+
+model Follower {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @unique @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Profile   Profile? @relation(fields: [profileId], references: [id])
+  profileId String?  @db.Uuid
+
+  @@map("followers")
+}
+
+model Collection {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String
+  description String?
+  bennerUrl   String?
+  accessPrice String?
+  isFree      Boolean  @default(false)
+  published   Boolean? @default(true)
+
+  posts Post[]
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Subscribers Subscriber[]
+  Profile     Profile?     @relation(fields: [profileId], references: [id])
+  profileId   String?      @db.Uuid
+
+  @@map("collections")
+}
+
+model Subscriber {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  collectionId String      @db.Uuid
+  user         User?       @relation(fields: [userId], references: [id])
+  userId       String      @db.Uuid
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@map("subcribers")
+}
+
+model Post {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content      String?
+  title        String?
+  resourcesUrl String[]
+  published    Boolean?    @default(true)
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  collectionId String      @db.Uuid
+
+  comments  Comment[]
+  postType  PostType  @default(TEXT)
+  keywords  String[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("posts")
+}
+
+model Comment {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title     String
+  content   String
+  user      User      @relation(fields: [userId], references: [id])
+  Post      Post?     @relation(fields: [postId], references: [id])
+  postId    String?   @db.Uuid
+  userId    String    @db.Uuid
+  Product   Products? @relation(fields: [productId], references: [id])
+  productId String?   @db.Uuid
+
+  @@map("comments")
+}
+
+// a revoir 
+model Category {
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Profiles  Profile[]
+
+  @@map("categories")
+}
+
+enum PostType {
+  IMAGE
+  TEXT
+  VIDEO
+  LINK
+  AUDIO
+}
+
+model Products {
+  id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                String
+  description         String
+  price               String
+  downloadProductUrl  String
+  photos              String[]
+  Profile             Profile?           @relation(fields: [profileId], references: [id])
+  profileId           String?            @db.Uuid
+  sales               Sales[]
+  comments            Comment[]
+  Ratings             Ratings[]
+  ProductCategory   ProductCategories? @relation(fields: [productCategoryId], references: [id])
+  productCategoryId String            @db.Uuid
+
+  @@map("products")
+}
+
+model Sales {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user      User      @relation(fields: [userId], references: [id])
+  Product   Products? @relation(fields: [productId], references: [id])
+  price     String
+  productId String?   @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String    @db.Uuid
+}
+
+model Ratings {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  rating    Decimal
+  Product   Products? @relation(fields: [productId], references: [id])
+  productId String?   @db.Uuid
+}
+
+model ProductCategories {
+  id      String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name    String
+  Product Products[]
+}

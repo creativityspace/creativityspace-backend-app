@@ -1,0 +1,12 @@
+import { CreateProductCategoryDto } from './dto/create-product-category.dto';
+import { UpdateProductCategoryDto } from './dto/update-product-category.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+export declare class ProductCategoriesService {
+    private prisma;
+    constructor(prisma: PrismaService);
+    create(createProductCategoryDto: CreateProductCategoryDto): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
+    findAll(): import(".prisma/client").Prisma.PrismaPromise<import(".prisma/client").ProductCategories[]>;
+    findOne(id: string): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
+    update(id: string, updateProductCategoryDto: UpdateProductCategoryDto): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
+    remove(id: string): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
+}
