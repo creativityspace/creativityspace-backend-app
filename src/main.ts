@@ -11,10 +11,12 @@ async function bootstrap() {
   .setVersion('0.1')
   .build();
 
+
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app)
+  app.enableCors()
   await app.listen(process.env.PORT || 8080);
 }
 bootstrap();
