@@ -16,7 +16,7 @@ const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app)
-  app.enableCors()
+  app.enableCors({origin:'*'})
   await app.listen(process.env.PORT || 8080);
 }
 bootstrap();
