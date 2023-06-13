@@ -20,7 +20,7 @@ let PostService = exports.PostService = class PostService {
         return this.prisma.post.create({ data: createPostDto });
     }
     findAll() {
-        return this.prisma.post.findMany();
+        return this.prisma.post.findMany({ where: { published: true, }, include: { collection: { select: { Profile: { select: { user: true } } } } } });
     }
     findAllByCollectionId(id) {
         return this.prisma.post.findMany({ where: { collectionId: id } });

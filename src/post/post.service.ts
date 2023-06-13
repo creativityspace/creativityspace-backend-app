@@ -11,7 +11,9 @@ export class PostService {
   }
 
   findAll() {
-    return this.prisma.post.findMany();
+    return this.prisma.post.findMany(
+      {where:{published:true, }, include:{collection:{select:{Profile:{select:{user:true}}}}}}
+    );
   }
   
   findAllByCollectionId(id: string) {
