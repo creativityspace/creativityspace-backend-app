@@ -12,7 +12,7 @@ export class PostService {
 
   findAll() {
     return this.prisma.post.findMany(
-      {where:{published:true, }, include:{collection:{select:{Profile:{select:{user:true},  }}, include:{Profile:true}}}}
+      {where:{published:true, }, include:{collection:{select:{Profile:{select:{user:true, avatarUrl:true, id:true, },  }}}}}
     );
   }
   
