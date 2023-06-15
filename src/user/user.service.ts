@@ -14,7 +14,7 @@ export class UserService {
     return this.prisma.user.findMany({include:{profile: true}});
   }
   findSugestionUsers(userid: string) {
-    return this.prisma.follower.findMany({include:{user: true, Profile:true}, where:{ userId:{not:userid}},});
+    return this.prisma.user.findMany({include:{profile: true}, where:{ id:{not:userid}},});
   }
 
   findOne(id: string) {
