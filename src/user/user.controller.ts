@@ -21,6 +21,10 @@ export class UserController {
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
+  @Get('suggestions/:userid')
+  findSugestionUsers(@Param('userid') id: string) {
+    return this.userService.findSugestionUsers(id);
+  }
   @Get('/userID/:id')
   findOneByuserID(@Param('id') id: string) {
     return this.userService.findOneByUserID(id);
