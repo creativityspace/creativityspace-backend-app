@@ -21,6 +21,10 @@ export class ProductsController {
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);
   }
+  @Get('profile/:id')
+  findProfileId(@Param('id') profileId: string) {
+    return this.productsService.findAllByProfileId(profileId);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {

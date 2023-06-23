@@ -6,6 +6,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
+
+  
   create(createUserDto: CreateUserDto) {
     return this.prisma.user.create({data : createUserDto});
   }
@@ -13,6 +15,7 @@ export class UserService {
   findAll() {
     return this.prisma.user.findMany({include:{profile: true}});
   }
+
   findSugestionUsers(userid: string) {
     return this.prisma.user.findMany({include:{profile: true}, where:{NOT:{id:{equals:userid}}, AND:{NOT:{Followers:{some:{userId:{equals:userid}}}}}},});
   }
@@ -20,14 +23,20 @@ export class UserService {
   findOne(id: string) {
     return this.prisma.user.findUnique({where:{ id: id}});
   }
+
+
   findOneByUserName(id: string) {
     return this.prisma.user.findUnique({where:{ userName: id}, include:{
       profile:true, _count:{select:{Subscribers:true}}
     }});
   }
+
+
   checkUserName(id: string) {
     return this.prisma.user.findUnique({where:{ userName: id}, select:{userName:true}});
   }
+
+
   findOneByUserID(id: string) {
     return this.prisma.user.findUnique({where:{ userID: id}, include:{
       profile:true, _count:{select:{Subscribers:true}}

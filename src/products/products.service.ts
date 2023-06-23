@@ -11,7 +11,10 @@ export class ProductsService {
   }
 
   findAll() {
-    return this.prisma.products.findMany();
+    return this.prisma.products.findMany({ include:{Profile:{include:{user:true}, }, Ratings:true}});
+  }
+  findAllByProfileId(profileId:string) {
+    return this.prisma.products.findMany({where:{profileId: profileId}, include:{Profile:{include:{user:true}, }, Ratings:true}});
   }
 
   findOne(id: string) {
