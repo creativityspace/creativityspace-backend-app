@@ -16,7 +16,7 @@ let SubscriberModule = exports.SubscriberModule = class SubscriberModule {
 exports.SubscriberModule = SubscriberModule = __decorate([
     (0, common_1.Module)({
         controllers: [subscriber_controller_1.SubscriberController],
-        providers: [subscriber_service_1.SubscriberService, prisma_service_1.PrismaService]
+        providers: [subscriber_service_1.SubscriberService, prisma_service_1.PrismaService],
     })
 ], SubscriberModule);
 //# sourceMappingURL=subscriber.module.js.map

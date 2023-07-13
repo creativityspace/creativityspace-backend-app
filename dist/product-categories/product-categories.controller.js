@@ -17,45 +17,48 @@ const common_1 = require("@nestjs/common");
 const product_categories_service_1 = require("./product-categories.service");
 const create_product_category_dto_1 = require("./dto/create-product-category.dto");
 const update_product_category_dto_1 = require("./dto/update-product-category.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let ProductCategoriesController = exports.ProductCategoriesController = class ProductCategoriesController {
     constructor(productCategoriesService) {
         this.productCategoriesService = productCategoriesService;
     }
-    create(createProductCategoryDto) {
+    async create(createProductCategoryDto) {
         return this.productCategoriesService.create(createProductCategoryDto);
     }
-    findAll() {
+    async findAll() {
         return this.productCategoriesService.findAll();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.productCategoriesService.findOne(id);
     }
-    update(id, updateProductCategoryDto) {
+    async update(id, updateProductCategoryDto) {
         return this.productCategoriesService.update(id, updateProductCategoryDto);
     }
-    remove(id) {
+    async remove(id) {
         return this.productCategoriesService.remove(id);
     }
 };
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_product_category_dto_1.CreateProductCategoryDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductCategoriesController.prototype, "create", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductCategoriesController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductCategoriesController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -63,14 +66,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_product_category_dto_1.UpdateProductCategoryDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductCategoriesController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProductCategoriesController.prototype, "remove", null);
 exports.ProductCategoriesController = ProductCategoriesController = __decorate([
     (0, common_1.Controller)('product-categories'),

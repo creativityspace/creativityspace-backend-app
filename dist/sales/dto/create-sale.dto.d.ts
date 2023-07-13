@@ -1,5 +1,12 @@
+export declare class Price {
+    amount: number;
+    curencyId: never;
+}
 export declare class CreateSaleDto {
-    price: string;
     productId: never;
     userId: never;
+}
+export declare class BodySalesDadaDto {
+    sale: CreateSaleDto;
+    price: Price;
 }

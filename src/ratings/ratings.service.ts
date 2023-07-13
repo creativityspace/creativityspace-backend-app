@@ -6,23 +6,26 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class RatingsService {
   constructor(private prisma: PrismaService) {}
-  create(createRatingDto: CreateRatingDto) {
-    return this.prisma.ratings.create({data:createRatingDto});
+  async create(createRatingDto: CreateRatingDto) {
+    return this.prisma.ratings.create({ data: createRatingDto });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.ratings.findMany();
   }
 
-  findOne(id: string) {
-    return this.prisma.ratings.findUnique({where:{id:id}});
+  async findOne(id: string) {
+    return this.prisma.ratings.findUnique({ where: { id: id } });
   }
 
-  update(id: string, updateRatingDto: UpdateRatingDto) {
-    return this.prisma.ratings.update({data:updateRatingDto, where:{id:id}});
+  async update(id: string, updateRatingDto: UpdateRatingDto) {
+    return this.prisma.ratings.update({
+      data: updateRatingDto,
+      where: { id: id },
+    });
   }
 
-  remove(id: string) {
-    return this.prisma.ratings.delete({where:{id:id}});
+  async remove(id: string) {
+    return this.prisma.ratings.delete({ where: { id: id } });
   }
 }

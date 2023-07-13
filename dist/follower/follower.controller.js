@@ -17,23 +17,27 @@ const common_1 = require("@nestjs/common");
 const follower_service_1 = require("./follower.service");
 const create_follower_dto_1 = require("./dto/create-follower.dto");
 const update_follower_dto_1 = require("./dto/update-follower.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let FollowerController = exports.FollowerController = class FollowerController {
     constructor(followerService) {
         this.followerService = followerService;
     }
-    create(createFollowerDto) {
+    async create(createFollowerDto) {
         return this.followerService.create(createFollowerDto);
     }
-    findAll() {
+    async findAll() {
         return this.followerService.findAll();
     }
-    findOne(id) {
+    async findAllByUser() {
+        return this.followerService.findAll();
+    }
+    async findOne(id) {
         return this.followerService.findOne(id);
     }
-    update(id, updateFollowerDto) {
+    async update(id, updateFollowerDto) {
         return this.followerService.update(id, updateFollowerDto);
     }
-    remove(id) {
+    async remove(id) {
         return this.followerService.remove(id);
     }
 };
@@ -42,20 +46,29 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_follower_dto_1.CreateFollowerDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FollowerController.prototype, "create", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FollowerController.prototype, "findAll", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], FollowerController.prototype, "findAllByUser", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FollowerController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -63,14 +76,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_follower_dto_1.UpdateFollowerDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FollowerController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], FollowerController.prototype, "remove", null);
 exports.FollowerController = FollowerController = __decorate([
     (0, common_1.Controller)('follower'),

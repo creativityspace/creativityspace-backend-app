@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const user_service_1 = require("./user.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let UserController = exports.UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
@@ -27,8 +28,14 @@ let UserController = exports.UserController = class UserController {
     findAll() {
         return this.userService.findAll();
     }
+    findAllCreator() {
+        return this.userService.findAllCreator();
+    }
     findOne(id) {
         return this.userService.findOne(id);
+    }
+    findSugestionUsers(id) {
+        return this.userService.findSugestionUsers(id);
     }
     findOneByuserID(id) {
         return this.userService.findOneByUserID(id);
@@ -47,6 +54,7 @@ let UserController = exports.UserController = class UserController {
     }
 };
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -54,11 +62,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "create", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findAll", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('creators'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "findAllCreator", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -67,6 +83,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.Get)('suggestions/:userid'),
+    __param(0, (0, common_1.Param)('userid')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "findSugestionUsers", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)('/userID/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -74,6 +98,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findOneByuserID", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)('/userName/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -81,6 +106,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findOneByuserName", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)('/checkUserName/:id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -88,6 +114,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "checkUserName", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -96,6 +123,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "update", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

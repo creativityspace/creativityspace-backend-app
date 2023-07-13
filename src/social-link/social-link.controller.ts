@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SocialLinkService } from './social-link.service';
-import { CreateSocialLinkDto, } from './dto/create-social-link.dto';
+import { CreateSocialLinkDto } from './dto/create-social-link.dto';
 import { UpdateSocialLinkDto } from './dto/update-social-link.dto';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('social-link')
 export class SocialLinkController {
@@ -9,32 +18,34 @@ export class SocialLinkController {
 
   @Post()
   create(@Body() createSocialLinkDto: CreateSocialLinkDto) {
-    
     return this.socialLinkService.create(createSocialLinkDto);
   }
-
-  @Post("many")
-  createMany(@Body() createSocialLinkDto:Array<CreateSocialLinkDto>) {
+  @Public()
+  @Post('many')
+  async createMany(@Body() createSocialLinkDto: Array<CreateSocialLinkDto>) {
     return this.socialLinkService.createMany(createSocialLinkDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.socialLinkService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.socialLinkService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSocialLinkDto: UpdateSocialLinkDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateSocialLinkDto: UpdateSocialLinkDto,
+  ) {
     return this.socialLinkService.update(id, updateSocialLinkDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.socialLinkService.remove(id);
   }
 }

@@ -17,60 +17,106 @@ const common_1 = require("@nestjs/common");
 const comment_service_1 = require("./comment.service");
 const create_comment_dto_1 = require("./dto/create-comment.dto");
 const update_comment_dto_1 = require("./dto/update-comment.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let CommentController = exports.CommentController = class CommentController {
     constructor(commentService) {
         this.commentService = commentService;
     }
-    create(createCommentDto) {
-        return this.commentService.create(createCommentDto);
+    async createForPost(createCommentDto) {
+        return this.commentService.createForPost(createCommentDto);
     }
-    findAll() {
+    async createForProduct(createCommentDto) {
+        return this.commentService.createForProduct(createCommentDto);
+    }
+    async findAll() {
         return this.commentService.findAll();
     }
-    findOne(id) {
-        return this.commentService.findOne(+id);
+    async findAllByPostId(id) {
+        return this.commentService.findAllByPostId(id);
     }
-    update(id, updateCommentDto) {
-        return this.commentService.update(+id, updateCommentDto);
+    async findAllByProductId(id) {
+        return this.commentService.findAllByProductId(id);
     }
-    remove(id) {
-        return this.commentService.remove(+id);
+    async findOne(id) {
+        return this.commentService.findOne(id);
+    }
+    async updateForPost(id, updateCommentDto) {
+        return this.commentService.updateForPost(id, updateCommentDto);
+    }
+    async updateForProduct(id, updateCommentDto) {
+        return this.commentService.updateForProduct(id, updateCommentDto);
+    }
+    async remove(id) {
+        return this.commentService.remove(id);
     }
 };
 __decorate([
-    (0, common_1.Post)(),
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Post)('/post'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_comment_dto_1.CreateCommentDto]),
-    __metadata("design:returntype", void 0)
-], CommentController.prototype, "create", null);
+    __metadata("design:paramtypes", [create_comment_dto_1.CreateCommentForPostDto]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "createForPost", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Post)('/product'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_comment_dto_1.CreateCommentForProductDto]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "createForProduct", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CommentController.prototype, "findAll", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('post/:postId'),
+    __param(0, (0, common_1.Param)('postId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "findAllByPostId", null);
+__decorate([
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Get)('product/:productId'),
+    __param(0, (0, common_1.Param)('productId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "findAllByProductId", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CommentController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
+    (0, common_1.Patch)('post/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_comment_dto_1.UpdateCommentDto]),
-    __metadata("design:returntype", void 0)
-], CommentController.prototype, "update", null);
+    __metadata("design:paramtypes", [String, update_comment_dto_1.UpdateCommentForPostDto]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "updateForPost", null);
+__decorate([
+    (0, common_1.Patch)('product/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_comment_dto_1.UpdateCommentForProductDto]),
+    __metadata("design:returntype", Promise)
+], CommentController.prototype, "updateForProduct", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CommentController.prototype, "remove", null);
 exports.CommentController = CommentController = __decorate([
     (0, common_1.Controller)('comment'),

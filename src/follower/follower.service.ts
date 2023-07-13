@@ -6,23 +6,26 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class FollowerService {
   constructor(private prisma: PrismaService) {}
-  create(createFollowerDto: CreateFollowerDto) {
-    return this.prisma.follower.create({data:createFollowerDto});
+  async create(createFollowerDto: CreateFollowerDto) {
+    return this.prisma.follower.create({ data: createFollowerDto });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.follower.findMany();
   }
 
-  findOne(id: string) {
-    return this.prisma.follower.findUnique({where:{id:id}});
+  async findOne(id: string) {
+    return this.prisma.follower.findUnique({ where: { id: id } });
   }
 
-  update(id: string, updateFollowerDto: UpdateFollowerDto) {
-    return this.prisma.follower.update({data: updateFollowerDto, where:{id: id}});
+  async update(id: string, updateFollowerDto: UpdateFollowerDto) {
+    return this.prisma.follower.update({
+      data: updateFollowerDto,
+      where: { id: id },
+    });
   }
 
-  remove(id: string) {
-    return this.prisma.follower.delete({where:{id: id}});
+  async remove(id: string) {
+    return this.prisma.follower.delete({ where: { id: id } });
   }
 }

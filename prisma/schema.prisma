@@ -2,12 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -26,6 +27,7 @@ model User {
   Followers   Follower[]
   Comment     Comment[]
   Sales       Sales[]
+  Ratings     Ratings[]
 
   @@map("users")
 }
@@ -75,8 +77,8 @@ enum SocialApp {
 
 model Follower {
   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @unique @db.Uuid
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @unique @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Profile   Profile? @relation(fields: [profileId], references: [id])
@@ -86,33 +88,38 @@ model Follower {
 }
 
 model Collection {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title       String
-  description String?
-  bennerUrl   String?
-  accessPrice String?
-  isFree      Boolean  @default(false)
-  published   Boolean? @default(true)
-
-  posts Post[]
-
+  description String
+  bennerUrl   String
+  isFree      Boolean      @default(false)
+  published   Boolean?     @default(true)
+  posts       Post[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   Subscribers Subscriber[]
   Profile     Profile?     @relation(fields: [profileId], references: [id])
-  profileId   String?      @db.Uuid
+  profileId   String       @db.Uuid
+  accessPrice Price?       @relation(fields: [priceId], references: [id])
+  priceId     String?      @db.Uuid
 
   @@map("collections")
 }
 
 model Subscriber {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  collection   Collection? @relation(fields: [collectionId], references: [id])
-  collectionId String      @db.Uuid
-  user         User?       @relation(fields: [userId], references: [id])
-  userId       String      @db.Uuid
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  collection     Collection? @relation(fields: [collectionId], references: [id])
+  collectionId   String      @db.Uuid
+  user           User?       @relation(fields: [userId], references: [id])
+  subscribPrice  Price?      @relation(fields: [priceId], references: [id])
+  status         Boolean?    @default(true)
+  userId         String      @db.Uuid
+  createdAt      DateTime    @default(now())
+  startDate      DateTime    @default(now())
+  endDate        DateTime?
+  payementMethod String
+  updatedAt      DateTime    @updatedAt
+  priceId        String      @db.Uuid
 
   @@map("subcribers")
 }
@@ -136,8 +143,8 @@ model Post {
 }
 
 model Comment {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title     String
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
   content   String
   user      User      @relation(fields: [userId], references: [id])
   Post      Post?     @relation(fields: [postId], references: [id])
@@ -145,6 +152,8 @@ model Comment {
   userId    String    @db.Uuid
   Product   Products? @relation(fields: [productId], references: [id])
   productId String?   @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("comments")
 }
@@ -173,7 +182,7 @@ model Products {
   id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name               String
   description        String
-  price              String
+  price              Price              @relation(fields: [priceId], references: [id])
   downloadProductUrl String
   photos             String[]
   Profile            Profile?           @relation(fields: [profileId], references: [id])
@@ -183,30 +192,88 @@ model Products {
   Ratings            Ratings[]
   ProductCategory    ProductCategories? @relation(fields: [productCategoryId], references: [id])
   productCategoryId  String             @db.Uuid
+  priceId            String             @db.Uuid
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 
   @@map("products")
 }
 
 model Sales {
   id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user      User      @relation(fields: [userId], references: [id])
+  user      User?     @relation(fields: [userId], references: [id])
   Product   Products? @relation(fields: [productId], references: [id])
-  price     String
+  price     Price     @relation(fields: [priceId], references: [id])
   productId String?   @db.Uuid
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   userId    String    @db.Uuid
+  priceId   String    @db.Uuid
 }
 
 model Ratings {
   id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   rating    Decimal
   Product   Products? @relation(fields: [productId], references: [id])
+  user      User?     @relation(fields: [userId], references: [id])
+  userId    String    @db.Uuid
   productId String?   @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model ProductCategories {
   id      String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name    String
   Product Products[]
+}
+
+model Price {
+  id         String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  amount     Decimal
+  curency    Curency      @relation(fields: [curencyId], references: [id])
+  Collection Collection[]
+  Products   Products[]
+  Subscriber Subscriber[]
+  curencyId  String       @db.Uuid
+  Sales      Sales[]
+}
+
+model Curency {
+  id     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code   String
+  label  String
+  Price  Price[]
+  Config Config[]
+}
+
+model Language {
+  id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code  String
+  label String
+
+  Config Config[]
+}
+
+model Address {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  country    String
+  city       String
+  street     String
+  postalCode String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Config     Config[]
+}
+
+model Config {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  language   Language @relation(fields: [languageId], references: [id])
+  curency    Curency  @relation(fields: [curencyId], references: [id])
+  address    Address  @relation(fields: [addressId], references: [id])
+  languageId String   @db.Uuid
+  curencyId  String   @db.Uuid
+  addressId  String   @db.Uuid
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

@@ -6,27 +6,30 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class CategoryService {
   constructor(private prisma: PrismaService) {}
-  create(createCategoryDto: CreateCategoryDto) {
-    return this.prisma.category.create({data: createCategoryDto});
+  async create(createCategoryDto: CreateCategoryDto) {
+    return this.prisma.category.create({ data: createCategoryDto });
   }
 
-  createMany(createCategoryDto:Array< CreateCategoryDto>) {
-    return this.prisma.category.createMany({data: createCategoryDto});
+  async createMany(createCategoryDto: Array<CreateCategoryDto>) {
+    return this.prisma.category.createMany({ data: createCategoryDto });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.category.findMany();
   }
 
-  findOne(id: string) {
-    return this.prisma.category.findUnique({where:{id:id}});
+  async findOne(id: string) {
+    return this.prisma.category.findUnique({ where: { id: id } });
   }
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return this.prisma.category.update({data: updateCategoryDto, where:{id:id}});
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    return this.prisma.category.update({
+      data: updateCategoryDto,
+      where: { id: id },
+    });
   }
 
-  remove(id: string) {
-    return this.prisma.category.delete({where:{id:id}});
+  async remove(id: string) {
+    return this.prisma.category.delete({ where: { id: id } });
   }
 }

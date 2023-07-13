@@ -4,9 +4,39 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export declare class RatingsService {
     private prisma;
     constructor(prisma: PrismaService);
-    create(createRatingDto: CreateRatingDto): import(".prisma/client").Prisma.Prisma__RatingsClient<import(".prisma/client").Ratings, never>;
-    findAll(): import(".prisma/client").Prisma.PrismaPromise<import(".prisma/client").Ratings[]>;
-    findOne(id: string): import(".prisma/client").Prisma.Prisma__RatingsClient<import(".prisma/client").Ratings, never>;
-    update(id: string, updateRatingDto: UpdateRatingDto): import(".prisma/client").Prisma.Prisma__RatingsClient<import(".prisma/client").Ratings, never>;
-    remove(id: string): import(".prisma/client").Prisma.Prisma__RatingsClient<import(".prisma/client").Ratings, never>;
+    create(createRatingDto: CreateRatingDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        rating: import("@prisma/client/runtime/library").Decimal;
+        productId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
+    findAll(): Promise<(import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        rating: import("@prisma/client/runtime/library").Decimal;
+        productId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {})[]>;
+    findOne(id: string): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        rating: import("@prisma/client/runtime/library").Decimal;
+        productId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
+    update(id: string, updateRatingDto: UpdateRatingDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        rating: import("@prisma/client/runtime/library").Decimal;
+        productId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
+    remove(id: string): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        rating: import("@prisma/client/runtime/library").Decimal;
+        productId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
 }

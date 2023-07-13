@@ -16,19 +16,190 @@ let ProductsService = exports.ProductsService = class ProductsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createProductDto) {
-        return this.prisma.products.create({ data: createProductDto });
+    async create(createProductDto) {
+        var pricedata = await this.prisma.price.create({
+            data: createProductDto.price,
+        });
+        console.log(pricedata);
+        return this.prisma.products.create({
+            data: Object.assign(Object.assign({}, createProductDto.product), { priceId: (await pricedata).id }),
+        });
     }
-    findAll() {
-        return this.prisma.products.findMany();
+    async findAll(params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.products.findMany({
+                skip: skip,
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
+        else {
+            return this.prisma.products.findMany({
+                skip: skip,
+                take: take,
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
     }
-    findOne(id) {
-        return this.prisma.products.findUnique({ where: { id: id } });
+    async searchAll(params) {
+        const { skip, take, searchBody } = params;
+        if (isNaN(skip)) {
+            return this.prisma.products.findMany({
+                where: {
+                    description: { search: searchBody },
+                    name: { search: searchBody },
+                    ProductCategory: { name: { search: searchBody } },
+                },
+                skip: skip,
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
+        else {
+            return this.prisma.products.findMany({
+                where: {
+                    description: { search: searchBody },
+                    name: { search: searchBody },
+                    ProductCategory: { name: { search: searchBody } },
+                },
+                skip: skip,
+                take: take,
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
     }
-    update(id, updateProductDto) {
-        return this.prisma.products.update({ data: updateProductDto, where: { id: id } });
+    async findAllByProfileId(profileId, params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.products.findMany({
+                skip: skip,
+                orderBy: { createdAt: 'desc' },
+                where: { profileId: profileId },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
+        else {
+            return this.prisma.products.findMany({
+                skip: skip,
+                take: take,
+                orderBy: { createdAt: 'desc' },
+                where: { profileId: profileId },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
     }
-    remove(id) {
+    async SearchAllByProfileId(profileId, params) {
+        const { skip, take, searchBody } = params;
+        if (isNaN(skip)) {
+            return this.prisma.products.findMany({
+                skip: skip,
+                orderBy: { createdAt: 'desc' },
+                where: {
+                    profileId: profileId,
+                    description: { search: searchBody },
+                    name: { search: searchBody },
+                    ProductCategory: { name: { search: searchBody } },
+                },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
+        else {
+            return this.prisma.products.findMany({
+                skip: skip,
+                take: take,
+                orderBy: { createdAt: 'desc' },
+                where: {
+                    profileId: profileId,
+                    description: { search: searchBody },
+                    name: { search: searchBody },
+                    ProductCategory: { name: { search: searchBody } },
+                },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
+    }
+    async findAllByCategory(category, params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.products.findMany({
+                skip: skip,
+                orderBy: { createdAt: 'desc' },
+                where: { ProductCategory: { id: category } },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
+        else {
+            return this.prisma.products.findMany({
+                skip: skip,
+                take: take,
+                orderBy: { createdAt: 'desc' },
+                where: { ProductCategory: { id: category } },
+                include: {
+                    Profile: { include: { user: true } },
+                    Ratings: true,
+                    price: { include: { curency: true } },
+                },
+            });
+        }
+    }
+    async findOne(id) {
+        return this.prisma.products.findUnique({
+            where: { id: id },
+            include: {
+                Profile: { include: { user: true } },
+                Ratings: true,
+                price: { include: { curency: true } },
+            },
+        });
+    }
+    async update(id, updateProductDto) {
+        var pricedata = this.prisma.price.create({ data: updateProductDto.price });
+        return this.prisma.products.update({
+            data: Object.assign(Object.assign({}, updateProductDto.product), { priceId: (await pricedata).id }),
+            where: { id: id },
+            include: { price: { include: { curency: true } } },
+        });
+    }
+    async remove(id) {
         return this.prisma.products.delete({ where: { id: id } });
     }
 };

@@ -1,22 +1,34 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { PostType } from "@prisma/client";
+import { ApiProperty } from '@nestjs/swagger';
+import { PostType } from '@prisma/client';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePostDto {
-    @ApiProperty({ required: false })
-    content?: string;
-    @ApiProperty({ required: false })
-    title?: string;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: false })
+  content?: string;
 
-    @ApiProperty({ required: false })
-    resourcesUrl?: Array<string>;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ required: false })
+  title?: string;
 
-    @ApiProperty({ required: false })
-    keywords?: Array<string>;
+  @IsNotEmpty()
+  @IsArray()
+  @ApiProperty({ required: false })
+  resourcesUrl?: Array<string>;
 
-    @ApiProperty({type: String })
-    collectionId?: never;
+  @IsNotEmpty()
+  @IsArray()
+  @ApiProperty({ required: false })
+  keywords?: Array<string>;
 
-    @ApiProperty()
-    postType?: PostType;
-  
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ type: String })
+  collectionId?: never;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  postType?: PostType;
 }

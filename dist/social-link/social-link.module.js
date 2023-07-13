@@ -16,7 +16,7 @@ let SocialLinkModule = exports.SocialLinkModule = class SocialLinkModule {
 exports.SocialLinkModule = SocialLinkModule = __decorate([
     (0, common_1.Module)({
         controllers: [social_link_controller_1.SocialLinkController],
-        providers: [social_link_service_1.SocialLinkService, prisma_service_1.PrismaService]
+        providers: [social_link_service_1.SocialLinkService, prisma_service_1.PrismaService],
     })
 ], SocialLinkModule);
 //# sourceMappingURL=social-link.module.js.map

@@ -16,22 +16,25 @@ let CategoryService = exports.CategoryService = class CategoryService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createCategoryDto) {
+    async create(createCategoryDto) {
         return this.prisma.category.create({ data: createCategoryDto });
     }
-    createMany(createCategoryDto) {
+    async createMany(createCategoryDto) {
         return this.prisma.category.createMany({ data: createCategoryDto });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.category.findMany();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.category.findUnique({ where: { id: id } });
     }
-    update(id, updateCategoryDto) {
-        return this.prisma.category.update({ data: updateCategoryDto, where: { id: id } });
+    async update(id, updateCategoryDto) {
+        return this.prisma.category.update({
+            data: updateCategoryDto,
+            where: { id: id },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.category.delete({ where: { id: id } });
     }
 };

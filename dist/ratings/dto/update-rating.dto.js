@@ -12,10 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateRatingDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const create_rating_dto_1 = require("./create-rating.dto");
+const class_validator_1 = require("class-validator");
 class UpdateRatingDto extends (0, swagger_1.PartialType)(create_rating_dto_1.CreateRatingDto) {
 }
 exports.UpdateRatingDto = UpdateRatingDto;
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
     (0, swagger_1.ApiProperty)({ required: false }),
     __metadata("design:type", Number)
 ], UpdateRatingDto.prototype, "rating", void 0);

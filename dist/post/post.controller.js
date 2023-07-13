@@ -21,25 +21,34 @@ let PostController = exports.PostController = class PostController {
     constructor(postService) {
         this.postService = postService;
     }
-    create(createPostDto) {
+    async create(createPostDto) {
         return this.postService.create(createPostDto);
     }
-    findAll() {
-        return this.postService.findAll();
+    async findAll(userId, skip, take) {
+        return this.postService.findAll(userId, {
+            skip: Number(skip),
+            take: Number(take),
+        });
     }
-    findAllByCollectionId(id) {
-        return this.postService.findAllByCollectionId(id);
+    async findAllByCollectionId(id, skip, take) {
+        return this.postService.findAllByCollectionId(id, {
+            skip: Number(skip),
+            take: Number(take),
+        });
     }
-    findAllByProfileId(id) {
-        return this.postService.findAllByProfileId(id);
+    async findAllByProfileId(id, skip, take) {
+        return this.postService.findAllByProfileId(id, {
+            skip: Number(skip),
+            take: Number(take),
+        });
     }
-    findOne(id) {
+    async findOne(id) {
         return this.postService.findOne(id);
     }
-    update(id, updatePostDto) {
+    async update(id, updatePostDto) {
         return this.postService.update(id, updatePostDto);
     }
-    remove(id) {
+    async remove(id) {
         return this.postService.remove(id);
     }
 };
@@ -48,34 +57,41 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_post_dto_1.CreatePostDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PostController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)(':userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Query)('skip')),
+    __param(2, (0, common_1.Query)('take')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
 ], PostController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)('collection/:id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Query)('skip')),
+    __param(2, (0, common_1.Query)('take')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
 ], PostController.prototype, "findAllByCollectionId", null);
 __decorate([
     (0, common_1.Get)('profileId/:id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Query)('skip')),
+    __param(2, (0, common_1.Query)('take')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
 ], PostController.prototype, "findAllByProfileId", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PostController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -83,14 +99,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_post_dto_1.UpdatePostDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PostController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PostController.prototype, "remove", null);
 exports.PostController = PostController = __decorate([
     (0, common_1.Controller)('post'),

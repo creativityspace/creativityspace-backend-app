@@ -16,7 +16,7 @@ let CollectionModule = exports.CollectionModule = class CollectionModule {
 exports.CollectionModule = CollectionModule = __decorate([
     (0, common_1.Module)({
         controllers: [collection_controller_1.CollectionController],
-        providers: [collection_service_1.CollectionService, prisma_service_1.PrismaService]
+        providers: [collection_service_1.CollectionService, prisma_service_1.PrismaService],
     })
 ], CollectionModule);
 //# sourceMappingURL=collection.module.js.map

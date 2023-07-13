@@ -5,6 +5,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Module({
   controllers: [SocialLinkController],
-  providers: [SocialLinkService, PrismaService]
+  providers: [SocialLinkService, PrismaService],
 })
 export class SocialLinkModule {}

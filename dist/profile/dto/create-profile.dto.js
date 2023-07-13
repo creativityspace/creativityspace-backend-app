@@ -11,18 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateProfileDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
 class CreateProfileDto {
 }
 exports.CreateProfileDto = CreateProfileDto;
 __decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], CreateProfileDto.prototype, "avatarUrl", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: true, }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ required: true }),
     __metadata("design:type", String)
 ], CreateProfileDto.prototype, "bio", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", void 0)
 ], CreateProfileDto.prototype, "userId", void 0);

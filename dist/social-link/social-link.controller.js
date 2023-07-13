@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const social_link_service_1 = require("./social-link.service");
 const create_social_link_dto_1 = require("./dto/create-social-link.dto");
 const update_social_link_dto_1 = require("./dto/update-social-link.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let SocialLinkController = exports.SocialLinkController = class SocialLinkController {
     constructor(socialLinkService) {
         this.socialLinkService = socialLinkService;
@@ -24,19 +25,19 @@ let SocialLinkController = exports.SocialLinkController = class SocialLinkContro
     create(createSocialLinkDto) {
         return this.socialLinkService.create(createSocialLinkDto);
     }
-    createMany(createSocialLinkDto) {
+    async createMany(createSocialLinkDto) {
         return this.socialLinkService.createMany(createSocialLinkDto);
     }
-    findAll() {
+    async findAll() {
         return this.socialLinkService.findAll();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.socialLinkService.findOne(id);
     }
-    update(id, updateSocialLinkDto) {
+    async update(id, updateSocialLinkDto) {
         return this.socialLinkService.update(id, updateSocialLinkDto);
     }
-    remove(id) {
+    async remove(id) {
         return this.socialLinkService.remove(id);
     }
 };
@@ -48,24 +49,25 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SocialLinkController.prototype, "create", null);
 __decorate([
-    (0, common_1.Post)("many"),
+    (0, public_decorator_1.Public)(),
+    (0, common_1.Post)('many'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SocialLinkController.prototype, "createMany", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SocialLinkController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SocialLinkController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -73,14 +75,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_social_link_dto_1.UpdateSocialLinkDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SocialLinkController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SocialLinkController.prototype, "remove", null);
 exports.SocialLinkController = SocialLinkController = __decorate([
     (0, common_1.Controller)('social-link'),

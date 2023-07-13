@@ -16,7 +16,7 @@ let CategoryModule = exports.CategoryModule = class CategoryModule {
 exports.CategoryModule = CategoryModule = __decorate([
     (0, common_1.Module)({
         controllers: [category_controller_1.CategoryController],
-        providers: [category_service_1.CategoryService, prisma_service_1.PrismaService]
+        providers: [category_service_1.CategoryService, prisma_service_1.PrismaService],
     })
 ], CategoryModule);
 //# sourceMappingURL=category.module.js.map

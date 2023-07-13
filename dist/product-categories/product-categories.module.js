@@ -16,7 +16,7 @@ let ProductCategoriesModule = exports.ProductCategoriesModule = class ProductCat
 exports.ProductCategoriesModule = ProductCategoriesModule = __decorate([
     (0, common_1.Module)({
         controllers: [product_categories_controller_1.ProductCategoriesController],
-        providers: [product_categories_service_1.ProductCategoriesService, prisma_service_1.PrismaService]
+        providers: [product_categories_service_1.ProductCategoriesService, prisma_service_1.PrismaService],
     })
 ], ProductCategoriesModule);
 //# sourceMappingURL=product-categories.module.js.map

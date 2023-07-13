@@ -16,19 +16,22 @@ let FollowerService = exports.FollowerService = class FollowerService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createFollowerDto) {
+    async create(createFollowerDto) {
         return this.prisma.follower.create({ data: createFollowerDto });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.follower.findMany();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.follower.findUnique({ where: { id: id } });
     }
-    update(id, updateFollowerDto) {
-        return this.prisma.follower.update({ data: updateFollowerDto, where: { id: id } });
+    async update(id, updateFollowerDto) {
+        return this.prisma.follower.update({
+            data: updateFollowerDto,
+            where: { id: id },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.follower.delete({ where: { id: id } });
     }
 };

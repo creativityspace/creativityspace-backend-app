@@ -16,7 +16,7 @@ let FollowerModule = exports.FollowerModule = class FollowerModule {
 exports.FollowerModule = FollowerModule = __decorate([
     (0, common_1.Module)({
         controllers: [follower_controller_1.FollowerController],
-        providers: [follower_service_1.FollowerService, prisma_service_1.PrismaService]
+        providers: [follower_service_1.FollowerService, prisma_service_1.PrismaService],
     })
 ], FollowerModule);
 //# sourceMappingURL=follower.module.js.map

@@ -16,19 +16,30 @@ let SubscriberService = exports.SubscriberService = class SubscriberService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createSubscriberDto) {
-        return this.prisma.subscriber.create({ data: createSubscriberDto });
+    async create(createSubscriberDto) {
+        var pricedata = this.prisma.price.create({
+            data: createSubscriberDto.price,
+        });
+        return this.prisma.subscriber.create({
+            data: Object.assign(Object.assign({}, createSubscriberDto.subscriber), { status: true, priceId: (await pricedata).id }),
+        });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.subscriber.findMany();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.subscriber.findUnique({ where: { id: id } });
     }
-    update(id, updateSubscriberDto) {
-        return this.prisma.subscriber.update({ data: updateSubscriberDto, where: { id: id } });
+    async update(id, updateSubscriberDto) {
+        var pricedata = this.prisma.price.create({
+            data: updateSubscriberDto.price,
+        });
+        return this.prisma.subscriber.update({
+            data: Object.assign(Object.assign({}, updateSubscriberDto.subscriber), { priceId: (await pricedata).id }),
+            where: { id: id },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.subscriber.delete({ where: { id: id } });
     }
 };

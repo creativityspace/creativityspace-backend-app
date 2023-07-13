@@ -16,7 +16,7 @@ let PostModule = exports.PostModule = class PostModule {
 exports.PostModule = PostModule = __decorate([
     (0, common_1.Module)({
         controllers: [post_controller_1.PostController],
-        providers: [post_service_1.PostService, prisma_service_1.PrismaService]
+        providers: [post_service_1.PostService, prisma_service_1.PrismaService],
     })
 ], PostModule);
 //# sourceMappingURL=post.module.js.map

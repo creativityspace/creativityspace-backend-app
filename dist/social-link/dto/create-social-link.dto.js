@@ -24,7 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], CreateSocialLinkDto.prototype, "socialApp", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: true, }),
+    (0, swagger_1.ApiProperty)({ required: true }),
     __metadata("design:type", String)
 ], CreateSocialLinkDto.prototype, "profileId", void 0);
 class CreateSocialLinkManyDto {

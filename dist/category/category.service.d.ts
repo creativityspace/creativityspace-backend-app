@@ -4,10 +4,35 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export declare class CategoryService {
     private prisma;
     constructor(prisma: PrismaService);
-    create(createCategoryDto: CreateCategoryDto): import(".prisma/client").Prisma.Prisma__CategoryClient<import(".prisma/client").Category, never>;
-    createMany(createCategoryDto: Array<CreateCategoryDto>): import(".prisma/client").Prisma.PrismaPromise<import(".prisma/client").Prisma.BatchPayload>;
-    findAll(): import(".prisma/client").Prisma.PrismaPromise<import(".prisma/client").Category[]>;
-    findOne(id: string): import(".prisma/client").Prisma.Prisma__CategoryClient<import(".prisma/client").Category, never>;
-    update(id: string, updateCategoryDto: UpdateCategoryDto): import(".prisma/client").Prisma.Prisma__CategoryClient<import(".prisma/client").Category, never>;
-    remove(id: string): import(".prisma/client").Prisma.Prisma__CategoryClient<import(".prisma/client").Category, never>;
+    create(createCategoryDto: CreateCategoryDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
+    createMany(createCategoryDto: Array<CreateCategoryDto>): Promise<import(".prisma/client").Prisma.BatchPayload>;
+    findAll(): Promise<(import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {})[]>;
+    findOne(id: string): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
+    update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
+    remove(id: string): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }, unknown> & {}>;
 }

@@ -1,34 +1,51 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SubscriberService } from './subscriber.service';
-import { CreateSubscriberDto } from './dto/create-subscriber.dto';
-import { UpdateSubscriberDto } from './dto/update-subscriber.dto';
+import {
+  BodySubscriberDadaDto,
+  CreateSubscriberDto,
+} from './dto/create-subscriber.dto';
+import {
+  UpdateBodySubscriberDadaDto,
+  UpdateSubscriberDto,
+} from './dto/update-subscriber.dto';
 
 @Controller('subscriber')
 export class SubscriberController {
   constructor(private readonly subscriberService: SubscriberService) {}
 
   @Post()
-  create(@Body() createSubscriberDto: CreateSubscriberDto) {
+  async create(@Body() createSubscriberDto: BodySubscriberDadaDto) {
     return this.subscriberService.create(createSubscriberDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.subscriberService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.subscriberService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubscriberDto: UpdateSubscriberDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateSubscriberDto: UpdateBodySubscriberDadaDto,
+  ) {
     return this.subscriberService.update(id, updateSubscriberDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.subscriberService.remove(id);
   }
 }

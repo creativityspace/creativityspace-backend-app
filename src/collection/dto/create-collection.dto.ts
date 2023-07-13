@@ -1,22 +1,48 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsNotEmpty, IsString, isString } from 'class-validator';
+
+export class Price {
+  @IsNotEmpty()
+  @ApiProperty()
+  amount: number;
+  @IsNotEmpty()
+  @ApiProperty({ type: String })
+  curencyId: never;
+}
 
 export class CreateCollectionDto {
-    @ApiProperty()
-    title: string;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  title: string;
 
+  @IsNotEmpty()
+  @IsBoolean()
+  @ApiProperty()
+  isFree: boolean;
 
-    @ApiProperty()
-    isFree: boolean;
-    
-    @ApiProperty({ required: false })
-    description?: string;
-    
-    @ApiProperty({ required: false })
-    bennerUrl?: string;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ required: false })
+  description: string;
 
-    @ApiProperty()
-    accessPrice: string;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ required: false })
+  bennerUrl: string;
 
-    @ApiProperty({type: String})
-    profileId: never;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ type: String })
+  profileId: never;
+}
+
+export class BodyCollectionBada {
+  @IsNotEmpty()
+  @ApiProperty({ type: CreateCollectionDto })
+  colection: CreateCollectionDto;
+
+  @IsNotEmpty()
+  @ApiProperty({ type: Price })
+  price: Price;
 }

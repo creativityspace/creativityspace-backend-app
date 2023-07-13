@@ -21,19 +21,19 @@ let RatingsController = exports.RatingsController = class RatingsController {
     constructor(ratingsService) {
         this.ratingsService = ratingsService;
     }
-    create(createRatingDto) {
+    async create(createRatingDto) {
         return this.ratingsService.create(createRatingDto);
     }
-    findAll() {
+    async findAll() {
         return this.ratingsService.findAll();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.ratingsService.findOne(id);
     }
-    update(id, updateRatingDto) {
+    async update(id, updateRatingDto) {
         return this.ratingsService.update(id, updateRatingDto);
     }
-    remove(id) {
+    async remove(id) {
         return this.ratingsService.remove(id);
     }
 };
@@ -42,20 +42,20 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_rating_dto_1.CreateRatingDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], RatingsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], RatingsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], RatingsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -63,14 +63,14 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_rating_dto_1.UpdateRatingDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], RatingsController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], RatingsController.prototype, "remove", null);
 exports.RatingsController = RatingsController = __decorate([
     (0, common_1.Controller)('ratings'),

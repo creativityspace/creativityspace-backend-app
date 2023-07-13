@@ -11,14 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateFollowerDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
 class CreateFollowerDto {
 }
 exports.CreateFollowerDto = CreateFollowerDto;
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", void 0)
 ], CreateFollowerDto.prototype, "userId", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", void 0)
 ], CreateFollowerDto.prototype, "profileId", void 0);

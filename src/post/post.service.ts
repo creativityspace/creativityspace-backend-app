@@ -6,33 +6,113 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class PostService {
   constructor(private prisma: PrismaService) {}
-  create(createPostDto: CreatePostDto) {
-    return this.prisma.post.create({data:createPostDto});
+  async create(createPostDto: CreatePostDto) {
+    return this.prisma.post.create({ data: createPostDto });
   }
 
-  findAll() {
-    return this.prisma.post.findMany(
-      {where:{published:true, }, include:{collection:{select:{Profile:{select:{user:true, avatarUrl:true, id:true, },  }}}}}
-    );
-  }
-  
-  findAllByCollectionId(id: string) {
-    return this.prisma.post.findMany({where:{collectionId: id}});
-  }
-  
-  findAllByProfileId(id: string) {
-    return this.prisma.post.findMany({where:{collection:{profileId: id}}});
+  async findAll(userId: string, params: { skip?: number; take?: number }) {
+    const { skip, take } = params;
+    if (isNaN(skip)) {
+      return this.prisma.post.findMany({
+        skip: skip,
+        where: {
+          published: true,
+          collection: {
+            isFree: true,
+            
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          collection: {
+            select: {
+              Profile: { select: { user: true, avatarUrl: true, id: true } },
+            },
+          },
+          comments: { include: { user: true } },
+        },
+      });
+    } else {
+      return this.prisma.post.findMany({
+        skip: skip,
+        take: take,
+        where: {
+          published: true,
+          collection: {
+            isFree: true,
+          
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          collection: {
+            select: {
+              Profile: { select: { user: true, avatarUrl: true, id: true } },
+            },
+          },
+          comments: { include: { user: true } },
+        },
+      });
+    }
   }
 
-  findOne(id: string) {
-    return this.prisma.post.findUnique({where:{id:id}});
+  async findAllByCollectionId(
+    id: string,
+    params: {
+      skip?: number;
+      take?: number;
+    },
+  ) {
+    const { skip, take } = params;
+    if (isNaN(skip)) {
+      return this.prisma.post.findMany({
+        skip: skip,
+        orderBy: { createdAt: 'desc' },
+        where: { collectionId: id },
+      });
+    } else {
+      return this.prisma.post.findMany({
+        skip: skip,
+        take: take,
+        orderBy: { createdAt: 'desc' },
+        where: { collectionId: id },
+      });
+    }
   }
 
-  update(id: string, updatePostDto: UpdatePostDto) {
-    return this.prisma.post.update({data:updatePostDto, where:{id: id}});
+  async findAllByProfileId(
+    id: string,
+    params: {
+      skip?: number;
+      take?: number;
+    },
+  ) {
+    const { skip, take } = params;
+    if (isNaN(skip)) {
+      return this.prisma.post.findMany({
+        skip: skip,
+        orderBy: { createdAt: 'desc' },
+        where: { collection: { profileId: id } },
+      });
+    } else {
+      return this.prisma.post.findMany({
+        skip: skip,
+        take: take,
+        orderBy: { createdAt: 'desc' },
+        where: { collection: { profileId: id } },
+      });
+    }
   }
 
-  remove(id: string) {
-    return this.prisma.post.delete({where:{id:id}});
+  async findOne(id: string) {
+    return this.prisma.post.findUnique({ where: { id: id } });
+  }
+
+  async update(id: string, updatePostDto: UpdatePostDto) {
+    return this.prisma.post.update({ data: updatePostDto, where: { id: id } });
+  }
+
+  async remove(id: string) {
+    return this.prisma.post.delete({ where: { id: id } });
   }
 }

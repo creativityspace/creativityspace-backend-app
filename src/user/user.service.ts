@@ -7,47 +7,80 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  
-  create(createUserDto: CreateUserDto) {
-    return this.prisma.user.create({data : createUserDto});
+  async create(createUserDto: CreateUserDto) {
+    return this.prisma.user.create({ data: createUserDto });
   }
 
-  findAll() {
-    return this.prisma.user.findMany({include:{profile: true}});
+  async findAll() {
+    return this.prisma.user.findMany({ include: { profile: true } });
+  }
+  async findAllCreator() {
+    return this.prisma.user.findMany({
+      include: { profile: true },
+      where: { role: 'CREATOR' },
+    });
   }
 
-  findSugestionUsers(userid: string) {
-    return this.prisma.user.findMany({include:{profile: true}, where:{NOT:{id:{equals:userid}}, AND:{NOT:{Followers:{some:{userId:{equals:userid}}}}}},});
+  async findSugestionUsers(userid: string) {
+    return this.prisma.user.findMany({
+      include: { profile: true },
+      where: {
+        NOT: { id: { equals: userid } },
+        AND: { NOT:{Followers: { some: { userId: userid } }} },
+      },
+    });
   }
 
-  findOne(id: string) {
-    return this.prisma.user.findUnique({where:{ id: id}});
+  async findOne(id: string) {
+    return this.prisma.user.findUnique({ where: { id: id } });
   }
 
-
-  findOneByUserName(id: string) {
-    return this.prisma.user.findUnique({where:{ userName: id}, include:{
-      profile:true, _count:{select:{Subscribers:true}}
-    }});
+  async findOneByUserName(id: string) {
+    return this.prisma.user.findUnique({
+      where: { userName: id },
+      include: {
+        profile: {
+          include: {
+            categories: true,
+            collections: {
+              where: { isFree: { equals: true } },
+              include: {
+                accessPrice: false,
+                posts: false,
+                Profile: false,
+                Subscribers: false,
+                _count: { select: { posts: true } },
+              },
+            },
+            _count: { select: { followers: true, Products: true } },
+          },
+        },
+      },
+    });
   }
 
-
-  checkUserName(id: string) {
-    return this.prisma.user.findUnique({where:{ userName: id}, select:{userName:true}});
+  async checkUserName(id: string) {
+    return this.prisma.user.findUnique({
+      where: { userName: id },
+      select: { userName: true },
+    });
   }
 
-
-  findOneByUserID(id: string) {
-    return this.prisma.user.findUnique({where:{ userID: id}, include:{
-      profile:true, _count:{select:{Subscribers:true}}
-    }});
+  async findOneByUserID(id: string) {
+    return this.prisma.user.findUnique({
+      where: { userID: id },
+      include: {
+        profile: true,
+        _count: { select: { Subscribers: true } },
+      },
+    });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return this.prisma.user.update({data: updateUserDto, where:{id:id}});
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    return this.prisma.user.update({ data: updateUserDto, where: { id: id } });
   }
 
-  remove(id: string) {
-    return this.prisma.user.delete({where:{id: id}});
+  async remove(id: string) {
+    return this.prisma.user.delete({ where: { id: id } });
   }
 }

@@ -16,25 +16,48 @@ let CollectionService = exports.CollectionService = class CollectionService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createCollectionDto) {
-        return this.prisma.collection.create({ data: createCollectionDto });
+    async create(createCollectionDto) {
+        var pricedata = this.prisma.price.create({
+            data: createCollectionDto.price,
+        });
+        return this.prisma.collection.create({
+            data: Object.assign(Object.assign({}, createCollectionDto.colection), { priceId: (await pricedata).id }),
+        });
     }
-    findAll() {
-        return this.prisma.collection.findMany();
+    async findAll() {
+        return this.prisma.collection.findMany({
+            include: { accessPrice: { include: { curency: true } } },
+        });
     }
-    findAllByProfileId(id) {
-        return this.prisma.collection.findMany({ where: { profileId: id } });
+    async findAllByProfileId(id) {
+        return this.prisma.collection.findMany({
+            where: { profileId: id },
+            include: { accessPrice: { include: { curency: true } } },
+        });
     }
-    findAllByUserId(author) {
-        return this.prisma.collection.findMany({ where: { Profile: { is: { userId: author } } } });
+    async findAllByUserId(author) {
+        return this.prisma.collection.findMany({
+            where: { Profile: { is: { userId: author } } },
+            include: { accessPrice: { include: { curency: true } } },
+        });
     }
-    findOne(id) {
-        return this.prisma.collection.findUnique({ where: { id: id } });
+    async findOne(id) {
+        return this.prisma.collection.findUnique({
+            where: { id: id },
+            include: { accessPrice: { include: { curency: true } } },
+        });
     }
-    update(id, updateCollectionDto) {
-        return this.prisma.collection.update({ data: updateCollectionDto, where: { id: id } });
+    async update(id, updateCollectionDto) {
+        var pricedata = this.prisma.price.create({
+            data: updateCollectionDto.price,
+        });
+        return this.prisma.collection.update({
+            data: Object.assign(Object.assign({}, updateCollectionDto), { priceId: (await pricedata).id }),
+            where: { id: id },
+            include: { accessPrice: { include: { curency: true } } },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.collection.delete({ where: { id: id } });
     }
 };

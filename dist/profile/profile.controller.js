@@ -17,48 +17,51 @@ const common_1 = require("@nestjs/common");
 const profile_service_1 = require("./profile.service");
 const create_profile_dto_1 = require("./dto/create-profile.dto");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 let ProfileController = exports.ProfileController = class ProfileController {
     constructor(profileService) {
         this.profileService = profileService;
     }
-    create(createProfileDto) {
+    async create(createProfileDto) {
         return this.profileService.create(createProfileDto);
     }
-    findAll() {
+    async findAll() {
         return this.profileService.findAll();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.profileService.findOne(id);
     }
-    update(id, updateProfileDto) {
+    async update(id, updateProfileDto) {
         return this.profileService.update(id, updateProfileDto);
     }
-    updateCategiries(id, updateProfileDto) {
+    async updateCategiries(id, updateProfileDto) {
         return this.profileService.updateCategory(id, updateProfileDto);
     }
-    remove(id) {
+    async remove(id) {
         return this.profileService.remove(id);
     }
 };
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_profile_dto_1.CreateProfileDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "findAll", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
@@ -66,22 +69,24 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, update_profile_dto_1.UpdateProfileDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "update", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Patch)('categories/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "updateCategiries", null);
 __decorate([
+    (0, public_decorator_1.Public)(),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "remove", null);
 exports.ProfileController = ProfileController = __decorate([
     (0, common_1.Controller)('profile'),

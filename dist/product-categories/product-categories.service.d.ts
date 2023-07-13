@@ -4,9 +4,24 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export declare class ProductCategoriesService {
     private prisma;
     constructor(prisma: PrismaService);
-    create(createProductCategoryDto: CreateProductCategoryDto): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
-    findAll(): import(".prisma/client").Prisma.PrismaPromise<import(".prisma/client").ProductCategories[]>;
-    findOne(id: string): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
-    update(id: string, updateProductCategoryDto: UpdateProductCategoryDto): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
-    remove(id: string): import(".prisma/client").Prisma.Prisma__ProductCategoriesClient<import(".prisma/client").ProductCategories, never>;
+    create(createProductCategoryDto: CreateProductCategoryDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+    }, unknown> & {}>;
+    findAll(): Promise<(import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+    }, unknown> & {})[]>;
+    findOne(id: string): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+    }, unknown> & {}>;
+    update(id: string, updateProductCategoryDto: UpdateProductCategoryDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+    }, unknown> & {}>;
+    remove(id: string): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: string;
+        name: string;
+    }, unknown> & {}>;
 }

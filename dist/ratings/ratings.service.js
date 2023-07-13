@@ -16,19 +16,22 @@ let RatingsService = exports.RatingsService = class RatingsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createRatingDto) {
+    async create(createRatingDto) {
         return this.prisma.ratings.create({ data: createRatingDto });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.ratings.findMany();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.ratings.findUnique({ where: { id: id } });
     }
-    update(id, updateRatingDto) {
-        return this.prisma.ratings.update({ data: updateRatingDto, where: { id: id } });
+    async update(id, updateRatingDto) {
+        return this.prisma.ratings.update({
+            data: updateRatingDto,
+            where: { id: id },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.ratings.delete({ where: { id: id } });
     }
 };

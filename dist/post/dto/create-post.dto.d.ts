@@ -1,4 +1,4 @@
-import { PostType } from "@prisma/client";
+import { PostType } from '@prisma/client';
 export declare class CreatePostDto {
     content?: string;
     title?: string;

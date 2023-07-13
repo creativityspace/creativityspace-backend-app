@@ -16,22 +16,25 @@ let SocialLinkService = exports.SocialLinkService = class SocialLinkService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createSocialLinkDto) {
+    async create(createSocialLinkDto) {
         return this.prisma.socialLink.create({ data: createSocialLinkDto });
     }
-    createMany(createSocialLinkDto) {
+    async createMany(createSocialLinkDto) {
         return this.prisma.socialLink.createMany({ data: createSocialLinkDto });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.socialLink.findMany();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.socialLink.findMany({ where: { id: id } });
     }
-    update(id, updateSocialLinkDto) {
-        return this.prisma.socialLink.update({ data: updateSocialLinkDto, where: { id: id } });
+    async update(id, updateSocialLinkDto) {
+        return this.prisma.socialLink.update({
+            data: updateSocialLinkDto,
+            where: { id: id },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.socialLink.delete({ where: { id: id } });
     }
 };

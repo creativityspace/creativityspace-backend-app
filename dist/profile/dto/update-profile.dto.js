@@ -13,15 +13,20 @@ exports.UpdateProfileDto = void 0;
 const mapped_types_1 = require("@nestjs/mapped-types");
 const create_profile_dto_1 = require("./create-profile.dto");
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
 class UpdateProfileDto extends (0, mapped_types_1.PartialType)(create_profile_dto_1.CreateProfileDto) {
 }
 exports.UpdateProfileDto = UpdateProfileDto;
 __decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "avatarUrl", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: true, }),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ required: true }),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "bio", void 0);
 //# sourceMappingURL=update-profile.dto.js.map

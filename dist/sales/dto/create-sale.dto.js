@@ -9,21 +9,50 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateSaleDto = void 0;
+exports.BodySalesDadaDto = exports.CreateSaleDto = exports.Price = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
+class Price {
+}
+exports.Price = Price;
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Number)
+], Price.prototype, "amount", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({ type: String }),
+    __metadata("design:type", void 0)
+], Price.prototype, "curencyId", void 0);
 class CreateSaleDto {
 }
 exports.CreateSaleDto = CreateSaleDto;
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: false }),
-    __metadata("design:type", String)
-], CreateSaleDto.prototype, "price", void 0);
-__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", void 0)
 ], CreateSaleDto.prototype, "productId", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", void 0)
 ], CreateSaleDto.prototype, "userId", void 0);
+class BodySalesDadaDto {
+}
+exports.BodySalesDadaDto = BodySalesDadaDto;
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ type: CreateSaleDto }),
+    __metadata("design:type", CreateSaleDto)
+], BodySalesDadaDto.prototype, "sale", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)({ type: Price }),
+    __metadata("design:type", Price)
+], BodySalesDadaDto.prototype, "price", void 0);
 //# sourceMappingURL=create-sale.dto.js.map

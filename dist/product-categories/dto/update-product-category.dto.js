@@ -12,10 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateProductCategoryDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const create_product_category_dto_1 = require("./create-product-category.dto");
+const class_validator_1 = require("class-validator");
 class UpdateProductCategoryDto extends (0, swagger_1.PartialType)(create_product_category_dto_1.CreateProductCategoryDto) {
 }
 exports.UpdateProductCategoryDto = UpdateProductCategoryDto;
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], UpdateProductCategoryDto.prototype, "name", void 0);

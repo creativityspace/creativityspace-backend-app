@@ -16,19 +16,24 @@ let ProductCategoriesService = exports.ProductCategoriesService = class ProductC
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createProductCategoryDto) {
-        return this.prisma.productCategories.create({ data: createProductCategoryDto });
+    async create(createProductCategoryDto) {
+        return this.prisma.productCategories.create({
+            data: createProductCategoryDto,
+        });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.productCategories.findMany();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.productCategories.findUnique({ where: { id: id } });
     }
-    update(id, updateProductCategoryDto) {
-        return this.prisma.productCategories.update({ data: updateProductCategoryDto, where: { id: id } });
+    async update(id, updateProductCategoryDto) {
+        return this.prisma.productCategories.update({
+            data: updateProductCategoryDto,
+            where: { id: id },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.productCategories.delete({ where: { id: id } });
     }
 };

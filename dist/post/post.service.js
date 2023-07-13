@@ -16,25 +16,96 @@ let PostService = exports.PostService = class PostService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createPostDto) {
+    async create(createPostDto) {
         return this.prisma.post.create({ data: createPostDto });
     }
-    findAll() {
-        return this.prisma.post.findMany({ where: { published: true, }, include: { collection: { select: { Profile: { select: { user: true } } } } } });
+    async findAll(userId, params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.post.findMany({
+                skip: skip,
+                where: {
+                    published: true,
+                    collection: {
+                        isFree: true,
+                    },
+                },
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    collection: {
+                        select: {
+                            Profile: { select: { user: true, avatarUrl: true, id: true } },
+                        },
+                    },
+                    comments: { include: { user: true } },
+                },
+            });
+        }
+        else {
+            return this.prisma.post.findMany({
+                skip: skip,
+                take: take,
+                where: {
+                    published: true,
+                    collection: {
+                        isFree: true,
+                    },
+                },
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    collection: {
+                        select: {
+                            Profile: { select: { user: true, avatarUrl: true, id: true } },
+                        },
+                    },
+                    comments: { include: { user: true } },
+                },
+            });
+        }
     }
-    findAllByCollectionId(id) {
-        return this.prisma.post.findMany({ where: { collectionId: id } });
+    async findAllByCollectionId(id, params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.post.findMany({
+                skip: skip,
+                orderBy: { createdAt: 'desc' },
+                where: { collectionId: id },
+            });
+        }
+        else {
+            return this.prisma.post.findMany({
+                skip: skip,
+                take: take,
+                orderBy: { createdAt: 'desc' },
+                where: { collectionId: id },
+            });
+        }
     }
-    findAllByProfileId(id) {
-        return this.prisma.post.findMany({ where: { collection: { profileId: id } } });
+    async findAllByProfileId(id, params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.post.findMany({
+                skip: skip,
+                orderBy: { createdAt: 'desc' },
+                where: { collection: { profileId: id } },
+            });
+        }
+        else {
+            return this.prisma.post.findMany({
+                skip: skip,
+                take: take,
+                orderBy: { createdAt: 'desc' },
+                where: { collection: { profileId: id } },
+            });
+        }
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.post.findUnique({ where: { id: id } });
     }
-    update(id, updatePostDto) {
+    async update(id, updatePostDto) {
         return this.prisma.post.update({ data: updatePostDto, where: { id: id } });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.post.delete({ where: { id: id } });
     }
 };

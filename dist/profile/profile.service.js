@@ -16,29 +16,33 @@ let ProfileService = exports.ProfileService = class ProfileService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createProfileDto) {
+    async create(createProfileDto) {
         return this.prisma.profile.create({ data: createProfileDto });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.profile.findMany();
     }
-    findOne(id) {
+    async findOne(id) {
         return this.prisma.profile.findUnique({ where: { id: id } });
     }
-    update(id, updateProfileDto) {
-        return this.prisma.profile.update({ data: updateProfileDto, where: { id: id } });
+    async update(id, updateProfileDto) {
+        return this.prisma.profile.update({
+            data: updateProfileDto,
+            where: { id: id },
+        });
     }
-    updateCategory(id, updateCategoriesProfileDto) {
+    async updateCategory(id, updateCategoriesProfileDto) {
         return this.prisma.profile.update({
             where: { id: id },
             data: {
-                categories: { connect: updateCategoriesProfileDto }
-            }, include: {
-                categories: true
+                categories: { connect: updateCategoriesProfileDto },
+            },
+            include: {
+                categories: true,
             },
         });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.profile.delete({ where: { id: id } });
     }
 };

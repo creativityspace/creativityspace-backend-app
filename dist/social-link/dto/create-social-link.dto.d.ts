@@ -1,4 +1,4 @@
-import { SocialApp } from "@prisma/client";
+import { SocialApp } from '@prisma/client';
 export declare class CreateSocialLinkDto {
     url: string;
     socialApp: SocialApp;

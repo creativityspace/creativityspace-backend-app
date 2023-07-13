@@ -16,7 +16,7 @@ let RatingsModule = exports.RatingsModule = class RatingsModule {
 exports.RatingsModule = RatingsModule = __decorate([
     (0, common_1.Module)({
         controllers: [ratings_controller_1.RatingsController],
-        providers: [ratings_service_1.RatingsService, prisma_service_1.PrismaService]
+        providers: [ratings_service_1.RatingsService, prisma_service_1.PrismaService],
     })
 ], RatingsModule);
 //# sourceMappingURL=ratings.module.js.map

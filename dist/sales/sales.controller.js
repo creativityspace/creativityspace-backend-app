@@ -21,19 +21,31 @@ let SalesController = exports.SalesController = class SalesController {
     constructor(salesService) {
         this.salesService = salesService;
     }
-    create(createSaleDto) {
+    async create(createSaleDto) {
         return this.salesService.create(createSaleDto);
     }
-    findAll() {
+    async findAll() {
         return this.salesService.findAll();
     }
-    findOne(id) {
+    async findAllByUserId(userId, skip, take) {
+        return this.salesService.findAllByUserId(userId, {
+            skip: Number(skip),
+            take: Number(take),
+        });
+    }
+    async findAllByProfileId(userId, skip, take) {
+        return this.salesService.findAllByProfileId(userId, {
+            skip: Number(skip),
+            take: Number(take),
+        });
+    }
+    async findOne(id) {
         return this.salesService.findOne(id);
     }
-    update(id, updateSaleDto) {
+    async update(id, updateSaleDto) {
         return this.salesService.update(id, updateSaleDto);
     }
-    remove(id) {
+    async remove(id) {
         return this.salesService.remove(id);
     }
 };
@@ -41,36 +53,54 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_sale_dto_1.CreateSaleDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [create_sale_dto_1.BodySalesDadaDto]),
+    __metadata("design:returntype", Promise)
 ], SalesController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SalesController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)('user/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Query)('skip')),
+    __param(2, (0, common_1.Query)('take')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], SalesController.prototype, "findAllByUserId", null);
+__decorate([
+    (0, common_1.Get)('profile/:ProfileId'),
+    __param(0, (0, common_1.Param)('ProfileId')),
+    __param(1, (0, common_1.Query)('skip')),
+    __param(2, (0, common_1.Query)('take')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:returntype", Promise)
+], SalesController.prototype, "findAllByProfileId", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SalesController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_sale_dto_1.UpdateSaleDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, update_sale_dto_1.UpdateBodySalesDadaDto]),
+    __metadata("design:returntype", Promise)
 ], SalesController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], SalesController.prototype, "remove", null);
 exports.SalesController = SalesController = __decorate([
     (0, common_1.Controller)('sales'),

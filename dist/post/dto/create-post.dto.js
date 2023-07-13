@@ -12,30 +12,43 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreatePostDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const client_1 = require("@prisma/client");
+const class_validator_1 = require("class-validator");
 class CreatePostDto {
 }
 exports.CreatePostDto = CreatePostDto;
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({ required: false }),
     __metadata("design:type", String)
 ], CreatePostDto.prototype, "content", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({ required: false }),
     __metadata("design:type", String)
 ], CreatePostDto.prototype, "title", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsArray)(),
     (0, swagger_1.ApiProperty)({ required: false }),
     __metadata("design:type", Array)
 ], CreatePostDto.prototype, "resourcesUrl", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsArray)(),
     (0, swagger_1.ApiProperty)({ required: false }),
     __metadata("design:type", Array)
 ], CreatePostDto.prototype, "keywords", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({ type: String }),
     __metadata("design:type", void 0)
 ], CreatePostDto.prototype, "collectionId", void 0);
 __decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], CreatePostDto.prototype, "postType", void 0);

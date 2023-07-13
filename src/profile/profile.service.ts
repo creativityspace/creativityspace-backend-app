@@ -7,34 +7,41 @@ import { CategoriesProfileDto } from './dto/categories-profile.dto';
 @Injectable()
 export class ProfileService {
   constructor(private prisma: PrismaService) {}
-  create(createProfileDto: CreateProfileDto) {
-    return this.prisma.profile.create({data: createProfileDto});
+  async create(createProfileDto: CreateProfileDto) {
+    return this.prisma.profile.create({ data: createProfileDto });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.profile.findMany();
   }
 
-  findOne(id: string) {
-    return this.prisma.profile.findUnique({where:{id: id}});
+  async findOne(id: string) {
+    return this.prisma.profile.findUnique({ where: { id: id } });
   }
 
-  update(id: string, updateProfileDto: UpdateProfileDto) {
-    return this.prisma.profile.update({data: updateProfileDto, where: {id:id}});
+  async update(id: string, updateProfileDto: UpdateProfileDto) {
+    return this.prisma.profile.update({
+      data: updateProfileDto,
+      where: { id: id },
+    });
   }
 
-  updateCategory(id: string, updateCategoriesProfileDto: CategoriesProfileDto[]) {
+  async updateCategory(
+    id: string,
+    updateCategoriesProfileDto: CategoriesProfileDto[],
+  ) {
     return this.prisma.profile.update({
       where: { id: id },
-      data:{
-        categories:{connect: updateCategoriesProfileDto}
-      }, include: {
-        categories: true
+      data: {
+        categories: { connect: updateCategoriesProfileDto },
+      },
+      include: {
+        categories: true,
       },
     });
   }
 
-  remove(id: string) {
-    return this.prisma.profile.delete({where:{id: id}});
+  async remove(id: string) {
+    return this.prisma.profile.delete({ where: { id: id } });
   }
 }

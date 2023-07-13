@@ -1,35 +1,69 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCollectionDto } from './dto/create-collection.dto';
-import { UpdateCollectionDto } from './dto/update-collection.dto';
+import {
+  BodyCollectionBada,
+  CreateCollectionDto,
+  Price,
+} from './dto/create-collection.dto';
+import {
+  UpdateBodyCollectionBada,
+  UpdateCollectionDto,
+} from './dto/update-collection.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CollectionService {
   constructor(private prisma: PrismaService) {}
-  create(createCollectionDto: CreateCollectionDto) {
-    return this.prisma.collection.create({data: createCollectionDto});
+  async create(createCollectionDto: BodyCollectionBada) {
+    var pricedata = this.prisma.price.create({
+      data: createCollectionDto.price,
+    });
+
+    return this.prisma.collection.create({
+      data: {
+        ...createCollectionDto.colection,
+        priceId: (await pricedata).id,
+      },
+    });
   }
 
-  findAll() {
-    return this.prisma.collection.findMany();
+  async findAll() {
+    return this.prisma.collection.findMany({
+      include: { accessPrice: { include: { curency: true } } },
+    });
   }
-  findAllByProfileId(id: string) {
-    return this.prisma.collection.findMany({where:{profileId: id}});
-  }
-
-  findAllByUserId( author: string) {
-    return this.prisma.collection.findMany({where:{Profile: {is:{userId: author}}}});
-  }
-
-  findOne(id: string) {
-    return this.prisma.collection.findUnique({where:{id:id}});
+  async findAllByProfileId(id: string) {
+    return this.prisma.collection.findMany({
+      where: { profileId: id },
+      include: { accessPrice: { include: { curency: true } } },
+    });
   }
 
-  update(id: string, updateCollectionDto: UpdateCollectionDto) {
-    return this.prisma.collection.update({data: updateCollectionDto, where:{id: id}});
+  async findAllByUserId(author: string) {
+    return this.prisma.collection.findMany({
+      where: { Profile: { is: { userId: author } } },
+      include: { accessPrice: { include: { curency: true } } },
+    });
   }
 
-  remove(id: string) {
-    return this.prisma.collection.delete({where:{id:id}});
+  async findOne(id: string) {
+    return this.prisma.collection.findUnique({
+      where: { id: id },
+      include: { accessPrice: { include: { curency: true } } },
+    });
+  }
+
+  async update(id: string, updateCollectionDto: UpdateBodyCollectionBada) {
+    var pricedata = this.prisma.price.create({
+      data: updateCollectionDto.price,
+    });
+    return this.prisma.collection.update({
+      data: { ...updateCollectionDto, priceId: (await pricedata).id },
+      where: { id: id },
+      include: { accessPrice: { include: { curency: true } } },
+    });
+  }
+
+  async remove(id: string) {
+    return this.prisma.collection.delete({ where: { id: id } });
   }
 }

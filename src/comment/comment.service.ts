@@ -1,26 +1,63 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { UpdateCommentDto } from './dto/update-comment.dto';
+import {
+  CreateCommentForPostDto,
+  CreateCommentForProductDto,
+} from './dto/create-comment.dto';
+import {
+  UpdateCommentForPostDto,
+  UpdateCommentForProductDto,
+} from './dto/update-comment.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CommentService {
-  create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+  constructor(private prisma: PrismaService) {}
+  async createForPost(createCommentDto: CreateCommentForPostDto) {
+    return this.prisma.comment.create({ data: createCommentDto });
+  }
+  async createForProduct(createCommentDto: CreateCommentForProductDto) {
+    return this.prisma.comment.create({ data: createCommentDto });
   }
 
-  findAll() {
-    return `This action returns all comment`;
+  async findAll() {
+    return this.prisma.comment.findMany();
+  }
+  async findAllByPostId(id: string) {
+    return this.prisma.comment.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: { user: { include: { profile: true } } },
+      where: { postId: id },
+    });
+  }
+  async findAllByProductId(id: string) {
+    return this.prisma.comment.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: { user: { include: { profile: true } } },
+      where: { productId: id },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  async findOne(id: string) {
+    return this.prisma.comment.findUnique({ where: { id: id } });
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+  async updateForPost(id: string, updateCommentDto: UpdateCommentForPostDto) {
+    return this.prisma.comment.update({
+      where: { id: id },
+      data: updateCommentDto,
+    });
+  }
+  async updateForProduct(
+    id: string,
+    updateCommentDto: UpdateCommentForProductDto,
+  ) {
+    return this.prisma.comment.update({
+      where: { id: id },
+      data: updateCommentDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  async remove(id: string) {
+    return this.prisma.comment.delete({ where: { id: id } });
   }
 }

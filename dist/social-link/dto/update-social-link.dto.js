@@ -18,11 +18,11 @@ class UpdateSocialLinkDto extends (0, mapped_types_1.PartialType)(create_social_
 }
 exports.UpdateSocialLinkDto = UpdateSocialLinkDto;
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: true, }),
+    (0, swagger_1.ApiProperty)({ required: true }),
     __metadata("design:type", String)
 ], UpdateSocialLinkDto.prototype, "url", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ required: true, }),
+    (0, swagger_1.ApiProperty)({ required: true }),
     __metadata("design:type", String)
 ], UpdateSocialLinkDto.prototype, "socialApp", void 0);
 //# sourceMappingURL=update-social-link.dto.js.map

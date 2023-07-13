@@ -16,19 +16,66 @@ let SalesService = exports.SalesService = class SalesService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    create(createSaleDto) {
-        return this.prisma.sales.create({ data: createSaleDto });
+    async create(createSaleDto) {
+        var pricedata = this.prisma.price.create({ data: createSaleDto.price });
+        return this.prisma.sales.create({
+            data: Object.assign(Object.assign({}, createSaleDto.sale), { priceId: (await pricedata).id }),
+        });
     }
-    findAll() {
+    async findAll() {
         return this.prisma.sales.findMany();
     }
-    findOne(id) {
+    async findAllByUserId(userId, params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.sales.findMany({
+                skip,
+                where: { userId: userId },
+                include: { price: { include: { curency: true } }, Product: true },
+                orderBy: { createdAt: 'desc' },
+            });
+        }
+        else {
+            return this.prisma.sales.findMany({
+                skip,
+                take,
+                where: { userId: userId },
+                include: { price: { include: { curency: true } }, Product: true },
+                orderBy: { createdAt: 'desc' },
+            });
+        }
+    }
+    async findAllByProfileId(profileId, params) {
+        const { skip, take } = params;
+        if (isNaN(skip)) {
+            return this.prisma.sales.findMany({
+                skip,
+                where: { Product: { profileId: profileId } },
+                include: { price: { include: { curency: true } }, Product: true },
+                orderBy: { createdAt: 'desc' },
+            });
+        }
+        else {
+            return this.prisma.sales.findMany({
+                skip,
+                take,
+                where: { Product: { profileId: profileId } },
+                include: { price: { include: { curency: true } }, Product: true },
+                orderBy: { createdAt: 'desc' },
+            });
+        }
+    }
+    async findOne(id) {
         return this.prisma.sales.findUnique({ where: { id: id } });
     }
-    update(id, updateSaleDto) {
-        return this.prisma.sales.update({ data: updateSaleDto, where: { id } });
+    async update(id, updateSaleDto) {
+        var pricedata = this.prisma.price.create({ data: updateSaleDto.price });
+        return this.prisma.sales.update({
+            data: Object.assign(Object.assign({}, updateSaleDto.sale), { priceId: (await pricedata).id }),
+            where: { id },
+        });
     }
-    remove(id) {
+    async remove(id) {
         return this.prisma.sales.delete({ where: { id: id } });
     }
 };

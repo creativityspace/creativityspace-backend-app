@@ -16,7 +16,7 @@ let SalesModule = exports.SalesModule = class SalesModule {
 exports.SalesModule = SalesModule = __decorate([
     (0, common_1.Module)({
         controllers: [sales_controller_1.SalesController],
-        providers: [sales_service_1.SalesService, prisma_service_1.PrismaService]
+        providers: [sales_service_1.SalesService, prisma_service_1.PrismaService],
     })
 ], SalesModule);
 //# sourceMappingURL=sales.module.js.map
