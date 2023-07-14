@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -36,9 +37,13 @@ export class UserController {
     return this.userService.findOne(id);
   }
   @Get('suggestions/:userid')
-  findSugestionUsers(@Param('userid') id: string) {
-    return this.userService.findSugestionUsers(id);
-  }
+  findSugestionUsers(@Param('userid') id: string, @Query('skip') skip: string,
+  @Query('take') take: string,) {
+    return this.userService.findSugestionUsers(id, {
+      skip: Number(skip),
+      take: Number(take),
+    });
+  }     
   @Public()
   @Get('/userID/:id')
   findOneByuserID(@Param('id') id: string) {
