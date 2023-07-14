@@ -34,8 +34,11 @@ let UserController = exports.UserController = class UserController {
     findOne(id) {
         return this.userService.findOne(id);
     }
-    findSugestionUsers(id) {
-        return this.userService.findSugestionUsers(id);
+    findSugestionUsers(id, skip, take) {
+        return this.userService.findSugestionUsers(id, {
+            skip: Number(skip),
+            take: Number(take),
+        });
     }
     findOneByuserID(id) {
         return this.userService.findOneByUserID(id);
@@ -85,8 +88,10 @@ __decorate([
 __decorate([
     (0, common_1.Get)('suggestions/:userid'),
     __param(0, (0, common_1.Param)('userid')),
+    __param(1, (0, common_1.Query)('skip')),
+    __param(2, (0, common_1.Query)('take')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "findSugestionUsers", null);
 __decorate([

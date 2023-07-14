@@ -62,7 +62,7 @@ export declare class UserController {
         createdAt: Date;
         updatedAt: Date;
     }, unknown> & {}>;
-    findSugestionUsers(id: string): Promise<({
+    findSugestionUsers(id: string, skip: string, take: string): Promise<({
         profile: import("@prisma/client/runtime/library").GetResult<{
             id: string;
             avatarUrl: string;

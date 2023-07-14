@@ -52,7 +52,10 @@ export declare class UserService {
         createdAt: Date;
         updatedAt: Date;
     }, unknown> & {})[]>;
-    findSugestionUsers(userid: string): Promise<({
+    findSugestionUsers(userid: string, params: {
+        skip?: number;
+        take?: number;
+    }): Promise<({
         profile: import("@prisma/client/runtime/library").GetResult<{
             id: string;
             avatarUrl: string;

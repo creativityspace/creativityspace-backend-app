@@ -21,14 +21,29 @@ export class UserService {
     });
   }
 
-  async findSugestionUsers(userid: string) {
-    return this.prisma.user.findMany({
-      include: { profile: true },
-      where: {
-        NOT: { id: { equals: userid } },
-        AND: { NOT:{Followers: { some: { userId: userid } }} },
-      },
-    });
+  async findSugestionUsers(userid: string, params: { skip?: number; take?: number }) {
+    const { skip, take } = params;
+    if (isNaN(skip)) {
+      return this.prisma.user.findMany({
+        skip,
+        include: { profile: true },
+        where: {
+          NOT: { id: { equals: userid } },
+          AND: { NOT:{Followers: { some: { userId: userid } }} },
+        },
+      });
+    } else {
+      return this.prisma.user.findMany({
+        skip,
+        take,
+        include: { profile: true },
+        where: {
+          NOT: { id: { equals: userid } },
+          AND: { NOT:{Followers: { some: { userId: userid } }} },
+        },
+      });
+    }
+    
   }
 
   async findOne(id: string) {
